@@ -46,3 +46,29 @@ app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
     console.log(`Acesse: http://localhost:${PORT}/monstros`);
 });
+
+// Rota GET para retornar um monstro aleatório
+app.get('/monstros/random', (req, res) => {
+    if (monstros.length > 0) {
+        const index = Math.floor(Math.random() * monstros.length);
+        res.json(monstros[index]);
+    } else {
+        res.status(404).json({ erro: 'Nenhum monstro encontrado.' });
+    }
+});
+
+// Criando uma nova rota que recebe um ID pela URL. `:monstro_id`
+app.get('/monstros/:monstro_id', (req, res) => {
+
+    // Descubra como pegar o ID passado pela URL através do atributo req.params 
+    let id = req.params.monstro_id;
+    // Pesquise sobre o método find em javascript e filtre o monstro por ID.
+    // Vale 15 pts
+    let monstro = monstro.find(m =>  m.id === Number(id));
+
+    if (monstro) {
+        res.json(monstro)
+    } else {
+        res.status(404).json({ erro: 'Nenhum monstro encontrado.' });
+    }
+});
